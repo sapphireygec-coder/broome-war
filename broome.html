@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,8 +39,7 @@ h1 { color:#FF6B35; font-size:2.2em; margin-bottom:10px; }
 .text-content.colored .adv { color:#B39DDB; }
 .text-content.colored .adj { color:#FFC0CB; }
 .text-content.colored .prep { color:#999; font-style:italic; }
-.jp-translation { display:none !important; margin-top:10px; padding:10px 14px; font-size:0.88em; color:#888; line-height:1.9; font-family:'Hiragino Mincho ProN','Yu Mincho','MS Mincho',serif; border-left:3px solid #444; }
-.jp-translation.visible { display:block !important; }
+.jp-translation { margin-top:10px; padding:10px 14px; font-size:0.88em; color:#888; line-height:1.9; font-family:'Hiragino Mincho ProN','Yu Mincho','MS Mincho',serif; border-left:3px solid #444; }
 .vocab-word { position:relative; cursor:help; border-bottom:2px dotted #FFC107; }
 .vocab-word:hover { color:#FFC107; }
 .tooltip { display:none; position:absolute; bottom:100%; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:10px 15px; border-radius:8px; font-size:0.85em; width:230px; z-index:1000; box-shadow:0 4px 12px rgba(0,0,0,0.5); margin-bottom:8px; border:2px solid #FFC107; }
@@ -221,6 +220,13 @@ footer { text-align:center; margin-top:50px; padding:28px 20px; border-top:1px s
 </div>
 
 <script>
+// ページ読み込み時に全日本語訳を強制非表示
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.jp-translation').forEach(function(el){
+    el.style.display = 'none';
+  });
+});
+
 function setMode(n,mode){
   const para=document.getElementById('para'+n);
   const jp=document.getElementById('jp'+n);
@@ -230,7 +236,7 @@ function setMode(n,mode){
   if(mode==='jp')btns[1].className='active-jp';
   if(mode==='col')btns[2].className='active-col';
   para.className='text-content '+(mode==='col'?'colored':'plain');
-  jp.classList.toggle('visible',mode==='jp');
+  jp.style.display = (mode==='jp') ? 'block' : 'none';
 }
 let actx=null;
 function ensureAudioContext(){
@@ -310,7 +316,7 @@ function handleNarration(n){
   });
 }
 const BGM_URL='https://dl.dropboxusercontent.com/scl/fi/3wicp7ko5loica7a7fyv9/Passacaglia-The-Eternal-Bond-5-Variations-432Hz-Handel-x-Halvorsen.mp3?rlkey=j8lp616vkk5wgfn0ga37elw3q&st=xgnevh4r';
-const BGM_START=508,BGM_END=705,BGM_NORMAL=0.3,BGM_DUCK=0.07;
+const BGM_START=508,BGM_END=705,BGM_NORMAL=0.25,BGM_DUCK=0.03;
 const schedule=[{para:1,offset:17},{para:2,offset:54},{para:3,offset:82},{para:4,offset:117}];
 let bgmAudio=null,bgmRunning=false,bgmStartTime=null,bgmTimers=[],muted=false;
 function startBGM(){
